@@ -4,7 +4,6 @@ interface Frame {
   id: number;
   title: string;
   dimensions: { width: number; height: number } | null;
-  position: { top: number; left: number } | null;
 }
 
 const SimpleButton: React.FC = () => {
@@ -12,7 +11,7 @@ const SimpleButton: React.FC = () => {
   const frameRef = useRef<HTMLDivElement>(null);
 
   const addFrame = () => {
-    const newFrame: Frame = { id: frames.length + 1, title: `Frame ${frames.length + 1}`, dimensions: null, position: null };
+    const newFrame: Frame = { id: frames.length + 1, title: `Frame ${frames.length + 1}`, dimensions: null };
     setFrames([...frames, newFrame]);
   };
 
@@ -20,7 +19,6 @@ const SimpleButton: React.FC = () => {
     const updateFrameDimensions = () => {
       if (frameRef.current) {
         const frameDimensions = frameRef.current.getBoundingClientRect();
-        const framePosition = { top: frameDimensions.top + window.scrollY, left: frameDimensions.left + window.scrollX };
         const updatedFrames = frames.map((frame) => {
           if (frame.id === frames.length) {
             return {
@@ -29,7 +27,6 @@ const SimpleButton: React.FC = () => {
                 width: frameDimensions.width,
                 height: frameDimensions.height,
               },
-              position: framePosition,
             };
           }
           return frame;
@@ -63,7 +60,8 @@ const SimpleButton: React.FC = () => {
               border: '1px solid black',
             }}
           >
-            {`${frame.title}, ${frame.dimensions?.height}, ${frame.dimensions?.width}, ${frame.position?.top}, ${frame.position?.left}`}
+            {`${frame.title}, ${frame.dimensions?.height}, ${frame.dimensions?.width} `}
+          
           </div>
         ))}
       </div>
